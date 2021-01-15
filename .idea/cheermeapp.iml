@@ -127,6 +127,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/rennokki/befriended" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/marcin-orlowski/laravel-api-response-builder" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/telescope" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
