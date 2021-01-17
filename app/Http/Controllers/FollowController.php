@@ -10,9 +10,10 @@ class FollowController extends Controller
     public function __construct(private IUserRepository $userRepository)
     {
     }
+
     public function followRequestUser(User $user)
     {
-        $this->authorize('follow', [auth()->user(), $user]);
+        $this->authorize('follow', $user);
         return $this->userRepository->followRequestUser($user);
     }
 
@@ -35,7 +36,6 @@ class FollowController extends Controller
     public function getFollowersList(User $user)
     {
         return $this->userRepository->getFollowersList($user);
-
     }
 
     public function getFollowingList(User $user)
@@ -46,8 +46,9 @@ class FollowController extends Controller
 
     public function followUser(User $user)
     {
-        $this->authorize('follow', [auth()->user(), $user]);
-        return $this->userRepository->followUser($user);
+        $this->authorize('follow-user', $user);
+        //return response()->json(['blocked' => !$user->blocks(auth()->user()) || !auth()->user()->blocks($user)]);
+         return $this->userRepository->followUser($user);
     }
 
     public function unFollowUser(User $user)

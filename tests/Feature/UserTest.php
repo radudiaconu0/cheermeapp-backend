@@ -1,8 +1,7 @@
 <?php
 
 namespace Tests\Feature;
-
-use http\Client\Curl\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
@@ -17,13 +16,12 @@ class UserTest extends TestCase
      */
     public function test_example()
     {
-        Sanctum::actingAs(\App\Models\User::find(1));
-//        $response = $this->post('/');
+        Sanctum::actingAs(User::find(2));
         $response = $this->withHeaders([
             'Accept' => 'application/json',
             'Content' => 'application/json'
-        ])->post('api/2/follow/');
+        ])->post('api/user/1/follow/');
 
-        $response->assertStatus(200);
+        $response->assertStatus(403);
     }
 }

@@ -10,14 +10,12 @@ class EditPostTest extends TestCase
 {
     public function testBasic()
     {
-        Sanctum::actingAs(User::find(2));
+        Sanctum::actingAs(User::find(1));
         $response = $this->withHeaders([
             'Accept' => 'application/json',
             'Content' => 'application/json'
-        ])->put('api/posts/1', [
-            'text' => 'Hello world'
-        ]);
+        ])->get('api/feed');
 
-        $response->assertStatus(403);
+        $response->assertStatus(200);
     }
 }

@@ -14,13 +14,13 @@ class UserPolicy
         //
     }
 
-    public function follow(User $follower, User $followable): bool
+    public function followUser(User $user, User $followable): bool
     {
-        return !$follower->blocks($followable);
+        return !$user->blocks($followable) && !$followable->blocks($user);
     }
 
     public function view(User $viewer, User $viewable): bool
     {
-        return $viewable->blocks($viewer);
+        return !$viewable->blocks($viewer);
     }
 }
