@@ -19,6 +19,11 @@ class UserPolicy
         return !$user->blocks($followable) && !$followable->blocks($user);
     }
 
+    public function followRequestUser(User $user, User $followable): bool
+    {
+        return !$user->blocks($followable) && !$followable->blocks($user);
+    }
+
     public function view(User $viewer, User $viewable): bool
     {
         return !$viewable->blocks($viewer);

@@ -20,16 +20,16 @@ class CommentController extends Controller
     {
     }
 
-    public function store(CreateCommentRequest $request, $id): Response
+    public function store(CreateCommentRequest $request, Post $post): Response
     {
-
-        return $this->commentRepository->createComment($request->only('text'), $id);
+        $this->authorize('create', $post);
+        return $this->commentRepository->createComment($request->only('text'), $post);
 
     }
 
-    public function storeReply(CreateCommentRequest $request, $id): Response
+    public function storeReply(CreateCommentRequest $request, Comment $comment): Response
     {
-        return $this->commentRepository->createReply($request->only('text'), $id);
+        return $this->commentRepository->createReply($request->only('text'), $comment);
     }
 
 

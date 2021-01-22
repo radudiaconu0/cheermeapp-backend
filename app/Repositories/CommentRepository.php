@@ -21,7 +21,7 @@ class CommentRepository implements ICommentRepository
         try {
             $user = auth()->user();
             $comment = $post->comments()->create([
-                'author' => $user->id,
+                'author_id' => $user->id,
                 'text' => $data['text']
             ]);
             return ResponseBuilder::success($comment)->setStatusCode(201);
@@ -72,7 +72,16 @@ class CommentRepository implements ICommentRepository
     public function getReplies(Comment $comment)
     {
         try {
-            return ResponseBuilder::success($comment->replies)->setStatusCode(200);
+            $user = auth()->user();
+            $comments = $comment->replies()->with(['author' => function ($query) {
+                $query->withCount('followers', 'following');
+            }])->withCount( 'likes')
+                ->whereHas('author', function ($query) use ($user) {
+                    $query->withoutBlockingsOf($user);
+                })
+                ->orWhere('author_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->paginate(7);
         } catch (ModelNotFoundException $exception) {
             return ResponseBuilder::error(BaseApiCodes::EX_HTTP_NOT_FOUND())->setStatusCode(404);
         }

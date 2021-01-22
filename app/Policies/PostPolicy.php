@@ -36,7 +36,8 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        return !User::find($post->author_id)->blocks($user);
+        $author = User::findOrFail($post->author_id);
+        return !$author->blocks($user) && $author->account_type == 'public';
     }
 
     /**

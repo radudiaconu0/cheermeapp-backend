@@ -48,6 +48,7 @@ class UserRepository implements IUserRepository
         $authUser = auth()->user();
         try {
             $authUser->unfollow($user);
+            $user->unfollow($authUser);
             if ($authUser->block($user))
                 return response()->json([
                     "success" => true,

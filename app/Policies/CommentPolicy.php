@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Comment;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -35,18 +36,19 @@ class CommentPolicy
      */
     public function view(User $user, Comment $comment)
     {
-        //
+        return !User::find($comment->author_id)->blocks($user);
     }
 
     /**
      * Determine whether the user can create comments.
      *
      * @param User $user
+     * @param Post $post
      * @return bool
      */
-    public function create(User $user)
+    public function create(User $user, Post $post)
     {
-        //
+        return !User::find($post->author_id)->blocks($user);
     }
 
     /**

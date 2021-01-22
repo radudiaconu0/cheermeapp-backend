@@ -72,7 +72,17 @@ class PostRepository implements IPostRepository
 
     public function getComments(Post $post)
     {
-        $comments = $post->comments()->with('author')->withCount('likes', 'replies');
+        $authUser = auth()->user();
+        $comments = $post->comments()->with(['author' => function ($query) {
+            $query->withCount('followers', 'following');
+        }])->withCount('likes', 'replies')
+            ->whereHas('author', function ($query) use ($authUser) {
+                $query->withoutBlockingsOf($authUser);
+            })
+            ->orWhere('author_id', $authUser->id)
+            ->orderBy('created_at', 'desc')
+            ->where('parent_id', '=')
+            ->paginate(7);
         return CommentResource::collection($comments);
     }
 
