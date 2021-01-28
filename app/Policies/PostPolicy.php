@@ -36,8 +36,8 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        $author = User::findOrFail($post->author_id);
-        return !$author->blocks($user) && $author->account_type == 'public';
+        $author = $post->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
     }
 
     /**
@@ -46,9 +46,9 @@ class PostPolicy
      * @param User $user
      * @return bool
      */
-    public function create(User $user)
+    public function getTimeline(User $user, User $timelineUser)
     {
-
+        return !$timelineUser->blocks($user) && ($timelineUser->account_type == 'public' || $user->follows($timelineUser));
     }
 
     /**
@@ -73,5 +73,16 @@ class PostPolicy
     public function delete(User $user, Post $post)
     {
         return $user->id === $post->author_id;
+    }
+
+    public function getComments(User $user, Post $post)
+    {
+        $author = $post->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
+    public function getLikes(User $user, Post $post)
+    {
+        $author = $post->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
     }
 }

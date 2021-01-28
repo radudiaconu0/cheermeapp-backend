@@ -41,6 +41,7 @@ class PostController extends Controller
 
     public function getTimeline(User $user)
     {
+        $this->authorize('getTimeline', $user);
         return $this->postRepository->getPostsByUserId($user->id);
     }
 
@@ -63,6 +64,7 @@ class PostController extends Controller
      */
     public function show(Post $post): \Symfony\Component\HttpFoundation\Response
     {
+        $this->authorize('view', $post);
         return $this->postRepository->getPost($post);
     }
 
@@ -95,11 +97,13 @@ class PostController extends Controller
 
     public function getComments(Post $post)
     {
+        $this->authorize('getComments', $post);
         return $this->postRepository->getComments($post);
     }
 
     public function getPostLikes(Post $post)
     {
+        $this->authorize('getLikes', $post);
         return $this->postRepository->getPostLikes($post);
     }
 }
