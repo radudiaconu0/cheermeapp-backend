@@ -90,4 +90,11 @@ class PostRepository implements IPostRepository
     {
         return ResponseBuilder::success($post->likers(User::class)->get())->setStatusCode(200);
     }
+    public function likePost(Post $post) {
+
+    }
+    public function unLikePost(Post $post) {
+
+    }
+
 }

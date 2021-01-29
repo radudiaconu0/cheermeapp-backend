@@ -80,7 +80,20 @@ class PostPolicy
         $author = $post->author;
         return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
     }
+
     public function getLikes(User $user, Post $post)
+    {
+        $author = $post->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
+
+    public function like(User $user, Post $post)
+    {
+        $author = $post->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
+
+    public function unLike(User $user, Post $post)
     {
         $author = $post->author;
         return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));

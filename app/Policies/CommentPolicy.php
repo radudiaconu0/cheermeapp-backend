@@ -98,4 +98,16 @@ class CommentPolicy
     {
         //
     }
+
+    public function like(User $user, Comment $comment)
+    {
+        $author = $comment->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
+
+    public function unLike(User $user, Comment $comment)
+    {
+        $author = $comment->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
 }
