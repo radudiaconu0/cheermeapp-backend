@@ -98,4 +98,10 @@ class PostPolicy
         $author = $post->author;
         return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
     }
+
+    public function comment(User $user, Post $post)
+    {
+        $author = $post->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
 }

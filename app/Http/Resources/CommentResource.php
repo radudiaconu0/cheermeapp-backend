@@ -34,6 +34,7 @@ class CommentResource extends JsonResource
         return [
             'update' => Gate::allows('update', $this->resource),
             'delete' => Gate::allows('delete', $this->resource),
+            'like' => Gate::allows('like', $this->resource)
         ];
     }
 }
