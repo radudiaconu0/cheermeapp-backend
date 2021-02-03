@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('comments/{post}/replies', [CommentController::class, 'storeReply']);
     Route::get('comments/{post}/replies', [CommentController::class, 'getReplies']);
 
+    Route::post('posts/{post}/comments/block', [PostController::class, 'blockComments']);
+    Route::post('posts/{post}/comments/unBlock', [PostController::class, 'blockComments']);
     Route::post('posts/{post}/likes', [LikeController::class, 'likePost']);
     Route::delete('posts/{post}/likes', [LikeController::class, 'unLikePost']);
     Route::get('posts/{post}/likes', [PostController::class, 'getPostLikes']);

@@ -104,4 +104,14 @@ class PostPolicy
         $author = $post->author;
         return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
     }
+
+    public function blockComments(User $user, Post $post): bool
+    {
+        return $post->author_id == $user->id && !$post->blocked_comments;
+    }
+
+    public function unBlockComments(User $user, Post $post): bool
+    {
+        return $post->author_id == $user->id && $post->blocked_comments;
+    }
 }

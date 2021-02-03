@@ -106,4 +106,16 @@ class PostController extends Controller
         $this->authorize('getLikes', $post);
         return $this->postRepository->getPostLikes($post);
     }
+
+    public function blockComments(Post $post)
+    {
+        $this->authorize('blockComments', $post);
+        return $this->postRepository->blockComments($post);
+    }
+
+    public function unBlockComments(Post $post)
+    {
+        $this->authorize('unBlockComments', $post);
+        return $this->postRepository->unBlockComments($post);
+    }
 }

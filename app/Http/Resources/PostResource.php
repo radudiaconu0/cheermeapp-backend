@@ -36,7 +36,9 @@ class PostResource extends JsonResource
             'update' => Gate::allows('update', $this->resource),
             'delete' => Gate::allows('delete', $this->resource),
             'like' => Gate::allows('like', $this->resource),
-            'comment' => Gate::allows('comment', $this->resource)
+            'comment' => Gate::allows('comment', $this->resource),
+            'blockComments' => Gate::allows('blockComments', $this->resource),
+            'unBlockComments' => Gate::allows('unBlockComments', $this->resource),
         ];
     }
 }

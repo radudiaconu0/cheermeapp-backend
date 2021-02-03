@@ -90,11 +90,28 @@ class PostRepository implements IPostRepository
     {
         return ResponseBuilder::success($post->likers(User::class)->get())->setStatusCode(200);
     }
-    public function likePost(Post $post) {
 
+    /**
+     * @param Post $post
+     * @return mixed
+     */
+    public function blockComments(Post $post)
+    {
+        $post->update(['blocked_comments' => true]);
+        return ResponseBuilder::success([
+            'blocked_comments' => true
+        ])->setStatusCode(201);
     }
-    public function unLikePost(Post $post) {
 
+    /**
+     * @param Post $post
+     * @return mixed
+     */
+    public function unBlockComments(Post $post)
+    {
+        $post->update(['blocked_comments' => true]);
+        return ResponseBuilder::success([
+            'blocked_comments' => false
+        ])->setStatusCode(201);
     }
-
 }

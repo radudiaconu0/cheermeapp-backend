@@ -24,4 +24,8 @@ interface IPostRepository
     public function getComments(Post $post);
 
     public function getPostLikes(Post $post);
+
+    public function blockComments(Post $post);
+
+    public function unBlockComments(Post $post);
 }
