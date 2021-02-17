@@ -16,6 +16,12 @@ class CommentPolicy
         //
     }
 
+    public function generalAuthorization(User $user, Comment $comment): bool
+    {
+        $author = $comment->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
+
     /**
      * Determine whether the user can view any comments.
      *
@@ -46,9 +52,10 @@ class CommentPolicy
      * @param Post $post
      * @return bool
      */
-    public function create(User $user, Post $post)
+    public function create(User $user, Post $post): bool
     {
-        return !User::find($post->author_id)->blocks($user);
+        $author = User::find($post->author_id);
+        return !$author->blocks($user) && $user->blocks($author) && ($author);
     }
 
     /**
@@ -58,9 +65,9 @@ class CommentPolicy
      * @param Comment $comment
      * @return bool
      */
-    public function update(User $user, Comment $comment)
+    public function update(User $user, Comment $comment): bool
     {
-        return $user->id == $comment->author_id;
+        return $user->id === $comment->author_id;
     }
 
     /**
@@ -70,48 +77,33 @@ class CommentPolicy
      * @param Comment $comment
      * @return bool
      */
-    public function delete(User $user, Comment $comment)
+    public function delete(User $user, Comment $comment): bool
     {
         return $user->id == $comment->author_id;
     }
 
-    /**
-     * Determine whether the user can restore the comment.
-     *
-     * @param User $user
-     * @param Comment $comment
-     * @return bool
-     */
-    public function restore(User $user, Comment $comment)
+    public function like(User $user, Comment $comment): bool
     {
-        //
+        return $this->generalAuthorization($user, $comment);
     }
 
-    /**
-     * Determine whether the user can permanently delete the comment.
-     *
-     * @param User $user
-     * @param Comment $comment
-     * @return bool
-     */
-    public function forceDelete(User $user, Comment $comment)
+    public function unLike(User $user, Comment $comment): bool
     {
-        //
+        return $this->generalAuthorization($user, $comment);
     }
 
-    public function like(User $user, Comment $comment)
+    public function storeReply(User $user, Comment $comment): bool
     {
-        $author = $comment->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return $this->generalAuthorization($user, $comment);
     }
 
-    public function unLike(User $user, Comment $comment)
+    public function getReplies(User $user, Comment $comment): bool
     {
-        $author = $comment->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return $this->generalAuthorization($user, $comment);
     }
-    public function storeReply(User $user,Comment $comment){
-        $author = $comment->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+
+    public function getCommentLikes(User $user, Comment $comment): bool
+    {
+        return $this->generalAuthorization($user, $comment);
     }
 }

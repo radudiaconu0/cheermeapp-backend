@@ -31,7 +31,10 @@ class CommentController extends Controller
 
     public function storeReply(CreateCommentRequest $request, Comment $comment): Response
     {
-        $this->authorize('storeReply', $comment);
+        try {
+            $this->authorize('storeReply', $comment);
+        } catch (AuthorizationException $e) {
+        }
         return $this->commentRepository->createReply($request->only('text'), $comment);
     }
 
@@ -70,13 +73,19 @@ class CommentController extends Controller
 
     public function getReplies($comment): Response
     {
-        $this->authorize('storeReply', $comment);
+        try {
+            $this->authorize('getReplies', $comment);
+        } catch (AuthorizationException $e) {
+        }
         return $this->commentRepository->getReplies($comment);
     }
 
     public function getCommentLikes(Comment $comment): Response
     {
-        $this->authorize('storeReply', $comment);
+        try {
+            $this->authorize('', $comment);
+        } catch (AuthorizationException $e) {
+        }
         return $this->commentRepository->getCommentLikes($comment);
     }
 }

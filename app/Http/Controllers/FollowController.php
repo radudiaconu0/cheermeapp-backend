@@ -45,7 +45,10 @@ class FollowController extends Controller
 
     public function getFollowingList(User $user)
     {
-        $this->authorize('getFollowingList', $user);
+        try {
+            $this->authorize('getFollowingList', $user);
+        } catch (AuthorizationException $e) {
+        }
         return $this->userRepository->getFollowingList($user);
     }
 

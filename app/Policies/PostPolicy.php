@@ -26,6 +26,10 @@ class PostPolicy
     {
         //
     }
+    public function generalAuthorization(User $user, Post $post) {
+        $author = $post->author;
+        return !$author->blocks($user) && !$user->blocks($author) && ($author->account_type == 'public' || $user->follows($author));
+    }
 
     /**
      * Determine whether the user can view the post.
@@ -37,7 +41,7 @@ class PostPolicy
     public function view(User $user, Post $post)
     {
         $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return !$author->blocks($user) && !$user->blocks($author) && ($author->account_type == 'public' || $user->follows($author));
     }
 
     /**
@@ -77,32 +81,28 @@ class PostPolicy
 
     public function getComments(User $user, Post $post)
     {
-        $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return $this->generalAuthorization($user, $post);
     }
 
     public function getLikes(User $user, Post $post)
     {
-        $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return $this->generalAuthorization($user, $post);
     }
 
     public function like(User $user, Post $post)
     {
-        $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return $this->generalAuthorization($user, $post);
     }
 
     public function unLike(User $user, Post $post)
     {
-        $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return $this->generalAuthorization($user, $post);
     }
 
     public function comment(User $user, Post $post)
     {
         $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author)) && !$post->blocked_comments;
+        return !$author->blocks($user) && $user->blocks($author) && ($author->account_type == 'public' || $user->follows($author)) && !$post->blocked_comments;
     }
 
     public function blockComments(User $user, Post $post): bool
