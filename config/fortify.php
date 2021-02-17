@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    'home' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -138,7 +138,7 @@ return [
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([
-            'confirmPassword' => true,
+            'confirmPassword' => false,
         ]),
     ],
 

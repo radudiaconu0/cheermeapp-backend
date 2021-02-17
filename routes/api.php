@@ -4,6 +4,7 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\OtherBrowserSessionsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
@@ -30,6 +31,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('posts', PostController::class)->except([
         'index'
     ]);
+    Route::get('sessions', function (Request $request) {
+       return $request->session()->all();
+    });
     Route::get('user/{user}/timeline', [PostController::class, 'getTimeline']);
     Route::get('feed', [PostController::class, 'getFeed']);
     Route::get('posts/{post}/comments', [PostController::class, 'getComments']);
@@ -38,7 +42,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('comments/{post}/replies', [CommentController::class, 'getReplies']);
 
     Route::post('posts/{post}/comments/block', [PostController::class, 'blockComments']);
-    Route::post('posts/{post}/comments/unBlock', [PostController::class, 'blockComments']);
+    Route::post('posts/{post}/comments/unBlock', [PostController::class, 'unBlockComments']);
     Route::post('posts/{post}/likes', [LikeController::class, 'likePost']);
     Route::delete('posts/{post}/likes', [LikeController::class, 'unLikePost']);
     Route::get('posts/{post}/likes', [PostController::class, 'getPostLikes']);

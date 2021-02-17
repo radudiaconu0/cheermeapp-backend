@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Repositories\Interfaces\IUserRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class FollowController extends Controller
 {
@@ -13,7 +14,10 @@ class FollowController extends Controller
 
     public function followRequestUser(User $user)
     {
-        $this->authorize('follow', $user);
+        try {
+            $this->authorize('followRequestUser', $user);
+        } catch (AuthorizationException $e) {
+        }
         return $this->userRepository->followRequestUser($user);
     }
 
@@ -35,25 +39,27 @@ class FollowController extends Controller
 
     public function getFollowersList(User $user)
     {
+        $this->authorize('getFollowersList', $user);
         return $this->userRepository->getFollowersList($user);
     }
 
     public function getFollowingList(User $user)
     {
+        $this->authorize('getFollowingList', $user);
         return $this->userRepository->getFollowingList($user);
-
     }
 
     public function followUser(User $user)
     {
-        $this->authorize('follow-user', $user);
-        //return response()->json(['blocked' => !$user->blocks(auth()->user()) || !auth()->user()->blocks($user)]);
-         return $this->userRepository->followUser($user);
+        try {
+            $this->authorize('follow-user', $user);
+        } catch (AuthorizationException $e) {
+        }
+        return $this->userRepository->followUser($user);
     }
 
     public function unFollowUser(User $user)
     {
         return $this->userRepository->unfollowUser($user);
-
     }
 }

@@ -20,6 +20,7 @@ class BlockController extends Controller
     {
         return $this->userRepository->unBlockUser($user);
     }
+
     public function getBlockList()
     {
         return $this->userRepository->getBlockList();

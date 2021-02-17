@@ -12,18 +12,18 @@ class Comment extends Model implements Likeable
 
     protected $fillable = ['author', 'text', 'parent', 'post'];
 
-    public function post()
+    public function post(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }
 
-    public function author()
+    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
-    public function replies()
+    public function replies(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Comment::class, 'parent_id', 'id')->where('parent_id', '!=', null);
+        return $this->hasMany(Comment::class, 'parent_id', 'id')->where('parent_id', '!=');
     }
 }

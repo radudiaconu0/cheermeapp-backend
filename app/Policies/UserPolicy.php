@@ -18,7 +18,14 @@ class UserPolicy
     {
         return !$user->blocks($followable) && !$followable->blocks($user);
     }
-
+    public function getFollowingList(User $user, User $followable): bool
+    {
+        return !$user->blocks($followable) && !$followable->blocks($user) && $user->account_type==='public';
+    }
+    public function getFollowersList(User $user, User $followable): bool
+    {
+        return !$user->blocks($followable) && !$followable->blocks($user)  && $user->account_type==='public';
+    }
     public function followRequestUser(User $user, User $followable): bool
     {
         return !$user->blocks($followable) && !$followable->blocks($user);

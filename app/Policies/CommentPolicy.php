@@ -110,4 +110,8 @@ class CommentPolicy
         $author = $comment->author;
         return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
     }
+    public function storeReply(User $user,Comment $comment){
+        $author = $comment->author;
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+    }
 }

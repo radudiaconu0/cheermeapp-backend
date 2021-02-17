@@ -36,5 +36,4 @@ class Post extends Model implements Likeable
     {
         return auth()->user()->likes($this);
     }
-
 }

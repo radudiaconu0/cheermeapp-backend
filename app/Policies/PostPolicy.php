@@ -102,7 +102,7 @@ class PostPolicy
     public function comment(User $user, Post $post)
     {
         $author = $post->author;
-        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author));
+        return !$author->blocks($user) && ($author->account_type == 'public' || $user->follows($author)) && !$post->blocked_comments;
     }
 
     public function blockComments(User $user, Post $post): bool
