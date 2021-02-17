@@ -13,7 +13,7 @@ class UserController extends Controller
     {
     }
 
-    public function changeAccountType(Request $request)
+    public function changeAccountType()
     {
         return $this->userRepository->changeAccountType();
     }
