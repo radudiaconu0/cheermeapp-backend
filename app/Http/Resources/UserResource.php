@@ -25,6 +25,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'email_verified' => !!$this->email_verified_at,
             'isFollowMe' => $this->isFollowing($authUser),
+            'followRequestedByMe' => $this->hasFollowRequestFrom($authUser),
+            'followRequestMe' => $this->hasFollowRequested($authUser),
             'isFollowedByMe' => $authUser->isFollowing($this->resource),
             'isBlockedByMe' => $authUser->isBlocking($this->resource),
             'followersCount' => $this->followers_count,
