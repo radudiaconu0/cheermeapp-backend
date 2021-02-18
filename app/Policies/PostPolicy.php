@@ -48,6 +48,7 @@ class PostPolicy
      * Determine whether the user can create posts.
      *
      * @param User $user
+     * @param User $timelineUser
      * @return bool
      */
     public function getTimeline(User $user, User $timelineUser)

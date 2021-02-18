@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Gate;
 
 /** @mixin \App\Models\User */
 class UserResource extends JsonResource
@@ -28,7 +29,18 @@ class UserResource extends JsonResource
             'isBlockedByMe' => $authUser->isBlocking($this->resource),
             'followersCount' => $this->followers_count,
             'followingCount' => $this->following_count,
-            'has2FA' => $this->two_factor_secret ? true : false
+            'has2FA' => $this->two_factor_secret ? true : false,
+            'can' => $this->permissions()
+        ];
+    }
+
+    public function permissions()
+    {
+        return [
+            'follow' => Gate::allows('followUser', $this->resource),
+            'followRequest' => Gate::allows('followRequestUser', $this->resource),
+            'getFollowingList' => Gate::allows('getFollowingList', $this->resource),
+            'getFollowersList' => Gate::allows('getFollowersList', $this->resource)
         ];
     }
 }

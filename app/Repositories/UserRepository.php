@@ -10,6 +10,7 @@ use App\Repositories\Interfaces\IUserRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MarcinOrlowski\ResponseBuilder\BaseApiCodes;
 use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserRepository implements IUserRepository
 {
@@ -101,26 +102,19 @@ class UserRepository implements IUserRepository
         return ResponseBuilder::asSuccess(BaseApiCodes::OK())->withData($blockingList);
     }
 
-    public function changeAccountType()
+    public function changeAccountType(): \Illuminate\Http\JsonResponse
     {
-        $authUser = auth()->user();
-        $accountType = $authUser->account_type;
-        $updated = match ($accountType) {
-            'public' => $authUser->update(['account_type' => 'private']),
-            'private' => $authUser->update(['account_type' => 'public'])
+        $updated = match (auth()->user()->account_type) {
+            'public' => auth()->user()->update(['account_type' => 'private']),
+            'private' => auth()->user()->update(['account_type' => 'public'])
         };
-        if ($updated) {
-            return response()->json([
-                'success' => true
-            ], 202);
-        } else {
-            return response()->json([
-                'success' => false
-            ], 415);
-        }
+        return response()->json([
+            'success' => $updated
+        ], $updated ? 202 : 415);
+
     }
 
-    public function followRequestUser(User $user)
+    public function followRequestUser(User $user): ResponseBuilder|Response
     {
         try {
             $authUser = auth()->user();
@@ -146,7 +140,7 @@ class UserRepository implements IUserRepository
         }
     }
 
-    public function cancelFollowRequest(User $user)
+    public function cancelFollowRequest(User $user): ResponseBuilder|Response
     {
         try {
             $authUser = auth()->user();
@@ -159,7 +153,7 @@ class UserRepository implements IUserRepository
         }
     }
 
-    public function declineFollowRequest(User $user)
+    public function declineFollowRequest(User $user): ResponseBuilder|Response
     {
         try {
             $authUser = auth()->user();

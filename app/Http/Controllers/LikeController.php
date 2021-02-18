@@ -20,37 +20,25 @@ class LikeController extends Controller
 
     public function likePost(Post $post): Response
     {
-        try {
-            $this->authorize('like', $post);
-        } catch (AuthorizationException $e) {
-        }
-        $this->likeRepository->likePost($post);
+        $this->authorize('like', $post);
+        return $this->likeRepository->likePost($post);
     }
 
     public function unLikePost(Post $post): Response
     {
-        try {
-            $this->authorize('unLike', $post);
-        } catch (AuthorizationException $e) {
-        }
+        $this->authorize('unLike', $post);
         return $this->likeRepository->likePost($post);
     }
 
     public function likeComment(Comment $comment): Response
     {
-        try {
-            $this->authorize('like', $comment);
-        } catch (AuthorizationException $e) {
-        }
+        $this->authorize('like', $comment);
         return $this->likeRepository->likeComment($comment);
     }
 
     public function unLikeComment(Comment $comment): Response
     {
-        try {
-            $this->authorize('unLike', $comment);
-        } catch (AuthorizationException $e) {
-        }
+        $this->authorize('unLike', $comment);
         return $this->likeRepository->unLikeComment($comment);
     }
 }
