@@ -63,6 +63,7 @@ class FollowController extends Controller
 
     public function unFollowUser(User $user)
     {
+        $this->authorize('unFollowUser', $user);
         return $this->userRepository->unfollowUser($user);
     }
 }

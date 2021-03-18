@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Gate;
 
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Gate;
 class UserResource extends JsonResource
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -40,6 +41,7 @@ class UserResource extends JsonResource
     {
         return [
             'follow' => Gate::allows('followUser', $this->resource),
+            'unfollow' => Gate::allows('unFollowUser', $this->resource),
             'followRequest' => Gate::allows('followRequestUser', $this->resource),
             'getFollowingList' => Gate::allows('getFollowingList', $this->resource),
             'getFollowersList' => Gate::allows('getFollowersList', $this->resource)
