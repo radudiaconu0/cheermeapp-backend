@@ -40,6 +40,23 @@ return [
                 'useTLS' => true,
             ],
         ],
+        'socketio' => [
+            'driver' => 'pusher',
+            'key' => env('SOCKETIO_APP_KEY'),
+            'secret' => env('SOCKETIO_APP_SECRET'),
+            'app_id' => env('SOCKETIO_APP_ID'),
+            'options' => [
+                'cluster' => env('SOCKETIO_APP_CLUSTER'),
+                'encrypted' => true,
+                'host' => env('SOCKETIO_HOST', '127.0.0.1'),
+                'port' => env('SOCKETIO_PORT', 6001),
+                'scheme' => 'http',
+                'curl_options' => [
+                    CURLOPT_SSL_VERIFYHOST => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                ],
+            ],
+        ],
 
         'ably' => [
             'driver' => 'ably',

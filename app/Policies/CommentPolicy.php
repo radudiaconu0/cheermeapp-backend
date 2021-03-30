@@ -40,7 +40,7 @@ class CommentPolicy
      * @param Comment $comment
      * @return bool
      */
-    public function view(User $user, Comment $comment)
+    public function view(User $user, Comment $comment): bool
     {
         return !User::find($comment->author_id)->blocks($user);
     }
@@ -79,7 +79,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): bool
     {
-        return $user->id == $comment->author_id;
+        return $user->id === $comment->author_id;
     }
 
     public function like(User $user, Comment $comment): bool
