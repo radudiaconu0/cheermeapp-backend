@@ -65,5 +65,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('user/{user}/follow/accept', [FollowController::class, 'acceptFollowRequest']);
 
     Route::put('user/change-account-type', [UserController::class, 'changeAccountType']);
+
+    Route::post('test-event', function (Request $request) {
+        broadcast(new \App\Events\TestEvent($request->get('message')));
+    });
+    Route::put('user/change-profile-picture', [UserController::class, 'changeProfilePicture']);
 });
 

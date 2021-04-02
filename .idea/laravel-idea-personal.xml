@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="LaravelIdeaPersonalSettings">
-    <option name="generationOptionValues">
+    <option name="generationStringOptionValues">
       <map>
-        <entry key="createDatabaseMigration.create" value="false" />
-        <entry key="createModel.createController" value="true" />
-        <entry key="createModel.createSeeder" value="true" />
+        <entry key="createDatabaseMigration.create" value="" />
+        <entry key="createEvent.shouldBroadcast" value="1" />
       </map>
     </option>
   </component>
