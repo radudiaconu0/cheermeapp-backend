@@ -43,6 +43,15 @@ class UserController extends Controller
                 'profile_pic' => $filename
             ], 201);
         }
-        return response()->json([],202);
+        return response()->json([], 202);
+    }
+
+    public function deleteProfilePicture(ChangeProfilePictureRequest $request)
+    {
+        $authUser = Auth::user();
+        $authUser->profile_pic = $authUser->gender . '.jpg';
+        $request->user()->save();
+        return response()->json([
+        ], 201);
     }
 }

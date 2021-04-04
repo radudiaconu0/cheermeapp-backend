@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'index'
     ]);
     Route::get('sessions', function (Request $request) {
-       return $request->session()->all();
+        return $request->session()->all();
     });
     Route::get('user/{user}/timeline', [PostController::class, 'getTimeline']);
     Route::get('feed', [PostController::class, 'getFeed']);
@@ -70,5 +70,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         broadcast(new \App\Events\TestEvent($request->get('message')));
     });
     Route::put('user/change-profile-picture', [UserController::class, 'changeProfilePicture']);
+    Route::put('user/delete-profile-picture', [UserController::class, 'deleteProfilePicture']);
 });
 
