@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +19,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('posts', function () {
-    return \App\Models\Post::all();
-});
+

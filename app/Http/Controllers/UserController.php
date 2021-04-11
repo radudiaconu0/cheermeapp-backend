@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Repositories\Interfaces\IUserRepository;
 use Auth;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UserController extends Controller
 {
@@ -36,7 +37,7 @@ class UserController extends Controller
             $avatar = $request->file('profile_pic');
             $path = '/src/uploads/' . Auth::id() . '/images';
             $filename = 'IMG_' . time() . '.' . $avatar->getClientOriginalExtension();
-            Image::make($avatar)->save(public_path($path . $filename));
+            Image::make($avatar)->save(storage_path($path . $filename))->encode('jpg');
             $request->user()->profile_pic = $filename;
             $request->user()->save();
             return response()->json([
@@ -53,5 +54,8 @@ class UserController extends Controller
         $request->user()->save();
         return response()->json([
         ], 201);
+    }
+    public function me(Request $request) {
+        return new UserResource($request->user());
     }
 }

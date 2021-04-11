@@ -37,27 +37,12 @@ return [
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => true,
-            ],
-        ],
-        'socketio' => [
-            'driver' => 'pusher',
-            'key' => env('SOCKETIO_APP_KEY'),
-            'secret' => env('SOCKETIO_APP_SECRET'),
-            'app_id' => env('SOCKETIO_APP_ID'),
-            'options' => [
-                'cluster' => env('SOCKETIO_APP_CLUSTER'),
                 'encrypted' => true,
-                'host' => env('SOCKETIO_HOST', '127.0.0.1'),
-                'port' => env('SOCKETIO_PORT', 6001),
-                'scheme' => 'http',
-                'curl_options' => [
-                    CURLOPT_SSL_VERIFYHOST => 0,
-                    CURLOPT_SSL_VERIFYPEER => 0,
-                ],
+                'host' => 'cheermeapp.test',
+                'port' => 6001,
+                'scheme' => 'http'
             ],
         ],
-
         'ably' => [
             'driver' => 'ably',
             'key' => env('ABLY_KEY'),

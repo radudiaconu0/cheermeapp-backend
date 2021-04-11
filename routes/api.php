@@ -22,18 +22,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/user', function (Request $request) {
-        return new UserResource($request->user());
-    });
+    Route::get('/user', [UserController::class, 'me']);
     Route::apiResource('comments', CommentController::class)->except([
         'show'
     ]);
     Route::apiResource('posts', PostController::class)->except([
         'index'
     ]);
-    Route::get('sessions', function (Request $request) {
-        return $request->session()->all();
-    });
+//    Route::get('sessions', function (Request $request) {
+//        return $request->session()->all();
+//    });
     Route::get('user/{user}/timeline', [PostController::class, 'getTimeline']);
     Route::get('feed', [PostController::class, 'getFeed']);
     Route::get('posts/{post}/comments', [PostController::class, 'getComments']);
@@ -66,9 +64,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::put('user/change-account-type', [UserController::class, 'changeAccountType']);
 
-    Route::post('test-event', function (Request $request) {
-        broadcast(new \App\Events\TestEvent($request->get('message')));
-    });
+//    Route::post('test-event', function (Request $request) {
+//        broadcast(new \App\Events\TestEvent($request->get('message')));
+//    });Route::post('test-event', function (Request $request) {
+//        broadcast(new \App\Events\TestEvent($request->get('message')));
+//    });
     Route::put('user/change-profile-picture', [UserController::class, 'changeProfilePicture']);
     Route::put('user/delete-profile-picture', [UserController::class, 'deleteProfilePicture']);
 });
